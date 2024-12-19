@@ -30,12 +30,13 @@
     </header>
 
     <main class="container">
-        <form class="row my-2 my-lg-5">
-            <input class="form-control col" type="search" placeholder="Search" aria-label="Search">
-            <button class="mx-2 btn btn-outline-success col-1" type="submit">Search</button>
-
-
-            <div class="row my-2 my-lg-5">
+        <form class="form-inline my-2 my-lg-5 row mx-2">
+            <input class="form-control mr-sm-2 col" type="search" placeholder="Search" aria-label="Search">
+            <button class="mx-xxl-1 mx-xl-1 btn btn-outline-success my-2 my-sm-0 col-12 col-xl-1"
+                type="submit">Search</button>
+        </form>
+        <form class="row d-flex bd-highlight mb-3" action="">
+            <div class="row bd-highlight">
                 <div class="col-4 justify-content-start">
                     <input class="form-control" type="search" placeholder="Hair color..." aria-label="Search">
                 </div>
@@ -43,8 +44,8 @@
                     <input class="form-control" type="search" placeholder="Eye color..." aria-label="Search">
                 </div>
                 <div class="col-4 justify-content-end">
-                    <div class="form-floating">
-                        <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
+                    <div class="form">
+                        <select class="form-select" id="floatingSelect" aria-label="select example">
                             <option value="male">Male</option>
                             <option value="female">Female</option>
                             <option value="undefined">Undefined</option>
