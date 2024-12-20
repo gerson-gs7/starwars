@@ -1,7 +1,7 @@
 
 body{
   font-family: 'impact';
-  background-color: rgb(185, 185, 185);
+  background-color: rgb(0, 0, 0);
 }
 .banner{
   background-color: black;
@@ -14,8 +14,9 @@ body{
   background-repeat: no-repeat;
 }
 .container-main{
-  background-color: rgb(185, 185, 185);
-  background-image: url('img/background2.jpeg');
+  background-color: rgba(34, 32, 32, 0.445);
+  background-image: url('img/backgroun2.jpeg');
   width: 100vw;
   height: 100ch;
+  color: aliceblue;
 }
