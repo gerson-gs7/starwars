@@ -14,8 +14,7 @@ body{
 }
 .container-main{
   background-color: rgba(34, 32, 32, 0.445);
-  background-image: url('../../view/img/backgroun2.jpeg');
   width: 100vw;
-  height: 100ch;
+  height: 100vh;
   color: aliceblue;
 }
