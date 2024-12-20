@@ -1,0 +1,37 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star Wars</title>
+</head>
+<body>
+    <h1></h1>
+    
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de API</title>
+</head>
+<body>
+    <h1>Star Wars Teste de fetch</h1>
+    <button id="fetchData">Fetch Data</button>
+    <pre id="output"></pre>
+
+    <script>
+        document.getElementById('fetchData').addEventListener('click', () => {
+            fetch('https://www.swapi.tech/api/people/1')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+                })
+                .catch(error => console.error('Erro:', error));
+        });
+    </script>
+</body>
+</html>
