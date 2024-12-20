@@ -1,0 +1,21 @@
+
+body{
+  font-family: 'impact';
+  background-color: rgb(185, 185, 185);
+}
+.banner{
+  background-color: black;
+  background-image: url('img/background.jpeg');
+  background-repeat: no-repeat;
+  width: 100vw;
+  height: 80vh;
+}
+.image{
+  background-repeat: no-repeat;
+}
+.container-main{
+  background-color: rgb(185, 185, 185);
+  background-image: url('img/background2.jpeg');
+  width: 100vw;
+  height: 100ch;
+}
