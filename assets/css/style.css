@@ -5,7 +5,7 @@ body{
 }
 .banner{
   background-color: black;
-  background-image: url('img/background.jpeg');
+  background-image: url('../.././view/img/background.jpeg');
   background-repeat: no-repeat;
   width: 100vw;
   height: 80vh;
@@ -15,7 +15,7 @@ body{
 }
 .container-main{
   background-color: rgb(185, 185, 185);
-  background-image: url('img/background2.jpeg');
+  background-image: url('../.././view/img/background2.jpeg');
   width: 100vw;
   height: 100ch;
 }
