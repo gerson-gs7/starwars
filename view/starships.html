@@ -49,10 +49,11 @@
                     <p class="fs-5">Search for your favorite ship.</p>
                 </div>
                 <div>
-                    <form class="px-5">
+                    <form class="search px-5">
                         <div class="d-flex gap-2">
-                            <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-warning text-light" type="submit">Search</button>
+                            <input class="form-control" id="searchInput" type="text" placeholder="Search"
+                                aria-label="Search">
+                            <button id="button" class="btn btn-warning text-light" type="submit">Search</button>
                         </div>
                         <div class="d-md-flex justify-content-end gap-md-2 mt-md-2">
                             <div class="col-12 col-md-2 mt-2">
@@ -82,21 +83,8 @@
         <div class="container container-main py-5">
             <div class="h1 font-white text-center">List of Star Wars spacecraft</div>
             <hr>
-            <div data-container class="d-flex gap-3 flex-wrap justify-content-around">
-                <div class="card" style="width: 18rem;">
-                    <div class="card-header">
-                        <h5 class="card-title">Dark card title</h5>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Model:</li>
-                        <li class="list-group-item">Price:</li>
-                        <li class="list-group-item">Manufacturer:</li>
-                        <li class="list-group-item">Crew:</li>
-                        <li class="list-group-item">Max atmosphering speed:</li>
-                        <li class="list-group-item">Hyperdrive rating:</li>
-                        <li class="list-group-item">Class:</li>
-                    </ul>
-                </div>
+            <div data-container id="card" class="d-flex gap-3 flex-wrap justify-content-around">
+                <!-- Onde os cads serão carregados dinamicamente -->
             </div>
     </main>
 </body>
@@ -104,5 +92,26 @@
     integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
     crossorigin="anonymous"></script>
 <script type="module" src="../controller/starship_controller.js"></script>
+<script>
+    let button = document.getElementById('button');
+    button.addEventListener("click", function(event){
+        event.preventDefault()
+    });
+    document.getElementById('searchInput').addEventListener('keyup', function () {
+        let filter = this.value.toLowerCase();
+        let items = document.querySelectorAll('#card div');
+
+        items.forEach(function (item) {
+
+            let title = item.querySelector('h5')
+
+            if (title.textContent.toLowerCase().includes(filter)) {
+                item.style.display = '';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    });
+</script>
 
 </html>

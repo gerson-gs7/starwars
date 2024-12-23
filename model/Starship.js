@@ -1,9 +1,8 @@
 export class Starship {
 
-    constructor(name, model, price, cost_in_credits, manufacturer, crew, max_atmosphering_speed, hyperdrive_rating, starship_class) {
+    constructor(name, model, cost_in_credits, manufacturer, crew, max_atmosphering_speed, hyperdrive_rating, starship_class) {
         this._name = name
         this._model = model
-        this._price = price
         this._cost_in_credits = cost_in_credits
         this._manufacturer = manufacturer
         this._crew = crew
@@ -16,9 +15,6 @@ get_name(){
 }
 get_model(){
     return this._model
-}
-get_price(){
-    return this._price
 }
 get_cost_in_credits(){
     return this._cost_in_credits
