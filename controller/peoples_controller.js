@@ -14,6 +14,31 @@ const criaLinha = (personagem, homeworldName) => {
     return linhaNovoPersonagem;
 };
 
+const fetchTodosPersonagens = async () => {
+    let url = 'https://www.swapi.tech/api/people?page=1&limit=10';
+    let todosPersonagens = [];
+    let hasNextPage = true;
+
+    while (hasNextPage) {
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            todosPersonagens = todosPersonagens.concat(data.results);
+
+            if (data.next) {
+                url = data.next;
+            } else {
+                hasNextPage = false;
+            }
+        } catch (err) {
+            console.error(err);
+            hasNextPage = false;
+        }
+    }
+
+    return todosPersonagens;
+};
+
 const substituirIndefinido = (valor) => {
     return valor === "n/a" ? "indefinido" : valor;
 };
@@ -22,7 +47,7 @@ const tabela = document.querySelector('[data-tabela]');
 
 const render = async () => {
     try {
-        const personagens = await peopleService.listaPersonagens();
+        const personagens = await fetchTodosPersonagens();
         const detalhesPersonagens = await Promise.all(personagens.map(async (personagem) => {
             const response = await fetch(personagem.url);
             const data = await response.json();
