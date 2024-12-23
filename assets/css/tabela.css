@@ -39,15 +39,27 @@
     text-align: right;
 }
 
-.tabela__coluna--p {
-    width: 40%;
+.tabela__coluna--a {
+    width: 10%;
 }
 
-.tabela__coluna--m {
-    width: 50%;
+.tabela__coluna--b {
+    width: 30%;
 }
 
-.tabela__coluna--n {
+.tabela__coluna--c {
+    width: 20%;
+}
+
+.tabela__coluna--d {
+    width: 20%;
+}
+
+.tabela__coluna--e {
+    width: 10%;
+}
+
+.tabela__coluna--f {
     width: 10%;
 }
 
