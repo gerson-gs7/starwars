@@ -12,19 +12,19 @@ const createNewCard = (starship) => {
                         <h5 class="card-title">${starship.get_name()}</h5>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Model: ${starship.get_model()}</li>
-                        <li class="list-group-item">Cost in credits: ${starship.get_cost_in_credits()}</li>
-                        <li class="list-group-item">Manufacturer: ${starship.get_manufacturer()}</li>
-                        <li class="list-group-item">Crew: ${starship.get_crew()}</li>
-                        <li class="list-group-item">Max atmosphering speed: ${starship.get_max_atmosphering_speed()}</li>
-                        <li class="list-group-item">Hyperdrive rating: ${starship.get_hyperdrive_rating()}</li>
-                        <li class="list-group-item">Class: ${starship.get_starship_class()}</li>
+                        <li class="list-group-item bg-secondary">Model: ${starship.get_model()}</li>
+                        <li class="list-group-item bg-ligth">Cost in credits: ${starship.get_cost_in_credits()}</li>
+                        <li class="list-group-item bg-secondary">Manufacturer: ${starship.get_manufacturer()}</li>
+                        <li class="list-group-item bg-ligth">Crew: ${starship.get_crew()}</li>
+                        <li class="list-group-item bg-secondary">Max atmosphering speed: ${starship.get_max_atmosphering_speed()}</li>
+                        <li class="list-group-item bg-ligth">Hyperdrive rating: ${starship.get_hyperdrive_rating()}</li>
+                        <li class="list-group-item bg-secondary">Class: ${starship.get_starship_class()}</li>
                     </ul>
                 </div>
 
     `
     card.innerHTML = container;
-    card.className = 'card text-white bg-dark mb-3 col-sm-12';
+    card.className = 'card text-white mb-3 col-sm-12';
     card.id = 'card';
     card.style = 'max-width: 18rem;'
     return card;
