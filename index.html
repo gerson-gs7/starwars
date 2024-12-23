@@ -14,7 +14,7 @@
 
     <script>
         document.getElementById('fetchData').addEventListener('click', () => {
-            fetch('https://www.swapi.tech/api/people/1')
+            fetch('https://www.swapi.tech/api/people/2')
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById('output').textContent = JSON.stringify(data, null, 2);
