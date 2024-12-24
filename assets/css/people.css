@@ -1,3 +1,32 @@
+body{
+	font-family: 'impact';
+	background-color: rgb(0, 0, 0);
+  }
+  .banner{
+	background-color: black;
+	background-image: url('../../view/img/background.jpeg');
+	background-repeat: no-repeat;
+	width: 100vw;
+	height: 80vh;
+  }
+  .image{
+	background-repeat: no-repeat;
+  }
+  .container-main{
+	background-color: rgba(34, 32, 32, 0.445);
+	width: 100vw;
+	height: 100ch;
+	color: aliceblue;
+  }
+
+  .imagem-limitada {
+    max-width: 100%;
+    height: auto;
+    max-height: 400px; /* Ajuste este valor conforme necessário */
+    display: block;
+    margin: 0 auto;
+}
+
 .peoples-container {
     padding-right: 1rem;
     padding-left: 1rem;

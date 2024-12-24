@@ -1,10 +1,10 @@
 import { peopleService } from "../service/peoples_service.js"
 
-const criaLinha = (personagem, homeworldName) => {
+const criaLinha = (personagem, planetaNatal) => {
     const linhaNovoPersonagem = document.createElement('tr');
     const conteudo = ` 
         <td class="td" data-td>${substituirIndefinido(personagem.name)}</td>
-        <td>${substituirIndefinido(homeworldName)}</td>
+        <td>${substituirIndefinido(planetaNatal)}</td>
         <td>${substituirIndefinido(personagem.eye_color)}</td>
         <td>${substituirIndefinido(personagem.hair_color)}</td>
         <td>${substituirIndefinido(personagem.gender)}</td>
@@ -17,30 +17,33 @@ const criaLinha = (personagem, homeworldName) => {
 const fetchTodosPersonagens = async () => {
     let url = 'https://www.swapi.tech/api/people?page=1&limit=10';
     let todosPersonagens = [];
-    let hasNextPage = true;
+    let temProximaPagina = true;
 
-    while (hasNextPage) {
+    while (temProximaPagina) {
+        
         try {
             const response = await fetch(url);
             const data = await response.json();
             todosPersonagens = todosPersonagens.concat(data.results);
-
+            
             if (data.next) {
                 url = data.next;
+                // console.log("teste");
             } else {
-                hasNextPage = false;
+                temProximaPagina = false;
             }
         } catch (err) {
-            console.error(err);
-            hasNextPage = false;
+            // console.error(err);
+            temProximaPagina = false;
         }
     }
-
+    // console.log(todosPersonagens);
+    
     return todosPersonagens;
 };
 
 const substituirIndefinido = (valor) => {
-    return valor === "n/a" ? "indefinido" : valor;
+    return valor === "n/a" ? "undefined" : valor;
 };
 
 const tabela = document.querySelector('[data-tabela]');
@@ -54,15 +57,15 @@ const render = async () => {
             const personagemDetalhes = data.result.properties;
 
             // Buscar o nome do planeta de origem
-            const homeworldResponse = await fetch(personagemDetalhes.homeworld);
-            const homeworldData = await homeworldResponse.json();
-            const homeworldName = substituirIndefinido(homeworldData.result.properties.name);
+            const planetaNatalResposta = await fetch(personagemDetalhes.homeworld);
+            const planetaNatalDados = await planetaNatalResposta.json();
+            const planetaNatal = planetaNatalDados.result.properties.name;
 
-            return { ...personagemDetalhes, homeworldName };
+            return { ...personagemDetalhes, planetaNatal };
         }));
 
         detalhesPersonagens.forEach(personagem => {
-            tabela.appendChild(criaLinha(personagem, personagem.homeworldName));
+            tabela.appendChild(criaLinha(personagem, personagem.planetaNatal));
         });
     } catch (error) {
         console.log(error);
