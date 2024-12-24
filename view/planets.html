@@ -79,9 +79,9 @@
                                     <input class="form-control" type="text" name="climateInput" id="climateInput">
                                 </div>
                             </div>
-                            
-                           
-                            
+
+
+
                         </div>
 
                     </form>
@@ -93,10 +93,42 @@
             </div>
         </div>
         <div class="container container-main py-5">
-            <div class="h1 font-white text-center">List of Star Wars planets</div>
+            <div class="d-flex justify-content-end">
+                <div class="col-8 h1 font-white">List of Star Wars planets</div>
+                <div class="">
+                    <label for="selectItensforPag">Itens por página</label>
+                    <select id="selectItensforPag" class="form-select">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                    </select>
+                </div>
+                
+            </div>
+
+
             <hr>
+
             <div data-container id="card" class="d-flex gap-3 flex-wrap justify-content-around">
                 <!-- Onde os cads serão carregados dinamicamente -->
+            </div>
+            <div class="d-flex justify-content-around">
+                <!-- Onde a barra de paginação será carregada -->
+                <nav aria-label="...">
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <a class="page-link" href="#" tabindex="-1">Anterior</a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item active">
+                            <a class="page-link" href="#">2 <span class="sr-only"></span></a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Próximo</a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
     </main>
 </body>
@@ -106,7 +138,7 @@
 <script type="module" src="../controller/planet_controller.js"></script>
 <script>
     let button = document.getElementById('button');
-    button.addEventListener("click", function(event){
+    button.addEventListener("click", function (event) {
         event.preventDefault()
     });
     document.getElementById('searchInput').addEventListener('keyup', function () {

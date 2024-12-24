@@ -1,4 +1,5 @@
-export class Planet{
+export class Planet {
+
     constructor(name, rotation_period, orbital_period, climate, gravity, terrain, population){
         this._name = name,
         this._rotation_period = rotation_period,
