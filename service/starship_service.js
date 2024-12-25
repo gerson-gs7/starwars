@@ -17,4 +17,3 @@ export const starship_service = {
  starship_list,
  starship_properties
 }
-
