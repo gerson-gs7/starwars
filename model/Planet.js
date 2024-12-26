@@ -9,25 +9,25 @@ export class Planet {
         this._terrain = terrain,
         this._population = population
     }
-    getName(){
+    get_name(){
         return this._name
     }
-    getRotation_period(){
+    get_rotation_period(){
         return this._rotation_period
     }
-    getOrbital_period(){
+    get_orbital_period(){
         return this._orbital_period
     }
-    getClimate(){
+    get_climate(){
         return this._climate
     }
-    getGravity(){
+    get_gravity(){
         return this._gravity
     }
-    getTerrain(){
+    get_terrain(){
         return this._terrain
     }
-    getPupulation(){
+    get_population(){
         return this._population
     }
 }
