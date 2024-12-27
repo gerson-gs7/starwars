@@ -8,11 +8,17 @@ let total_records = ""
 let total_pages = ""
 let previous_page = ""
 let next_page = ""
-
-
+let currentPage = "1"
+let limit = "10"
+const currentUrl = new URL(window.location.href);
+const params = new URLSearchParams(currentUrl.search);
+// Pegando os valores dos parâmetros da url
+if(params.get('page')) currentPage = params.get('page')
+if(params.get('limit')) limit = params.get('limit')
 
 // Esse método retorna uma array de planetas
 const planets_list = async (page, limit) => {
+   
     const planets = []
 
     try {
@@ -77,79 +83,86 @@ const createNewCard = (planet) => {
 // Esse método retorna o menu de paginação
 const createPagination = (page) => {
     const ul = document.createElement('ul')
-
-    const li = document.createElement('li')
-    li.className = 'page-item'
-
-    li.innerHTML = `
-                            <a id="btPrevious" class="page-link disabled" href="#">Previous</a>
-                        `
-    // li += `
-    //             <li class="page-item">
-    //                         <a id="btPrevious" class="page-link disabled" href="#">Previous</a>
-    //                     </li>
-
-    // `
+    ul.className = 'pagination';
+    
+    let btPrevious = document.createElement('li')
+    btPrevious.className = 'page-item'
+    btPrevious.innerHTML = `<button class="page-link">Previous</button>`
+    if(page==1) btPrevious.querySelector('button').className = "page-link disabled"
+    btPrevious.addEventListener("click", function() {
+        render(page-1,limit)
+    })
+    ul.appendChild(btPrevious)
+    
     for (let i = 1; i <= total_pages; i++) {
 
-        //let item = ` <a item-${i} class="page-link" href="#">${i}</a>`
+        let li = document.createElement('li')
+        li.className = 'page-item'
+        li.innerHTML = ` <a class="page-link active" href="?page=${i}&limit=${limit}">${i}</a>` 
+        if(page != i)li.querySelector('a').className = 'page-link'
         
-        //const item = document.querySelector(`[item-${i}]`)
-
-
-        // if(page==i){
-        //     item.className = 'active'
-        // }
+        ul.appendChild(li)
+        
     }
-    // li += `<li class="page-item">
-    //                         <a class="btNext page-link" href="#">Next</a>
-
-    //                     </li>`
-    ul.className = 'pagination';
-    ul.appendChild(li)
+      
+    let btNext = document.createElement('li')
+    btNext.className = 'page-item'
+    btNext.innerHTML = `<button class="page-link" href="#">Next</button>`
+    if(page==total_pages) btNext.querySelector('button').className = "page-link disabled";
+    btNext.addEventListener("click", function() {
+        render(page+1,limit)
+    })
+    ul.appendChild(btNext)
+    
     return ul;
 }
 
-
-
-{/* <nav>
-                    <ul class="pagination">
-                        <!-- Aqui vai ser carregado os botoes de paginação -->
-                        <li class="page-item">
-                            <a class="page-link disabled" href="#" tabindex="-1">Anterior</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link active" href="#">1</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">2 <span class="sr-only"></span></a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">3</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">Próximo</a>
-                            
-                        </li>
-                    </ul>
-                </nav> */}
-
-// Esse método renderiza na tela todos os cards carregados
+    // Esse método renderiza na tela todos os cards carregados
 const render = async (page, limit) => {
-
+    
+    //rolarParaElemento()
     const list_planets = await planets_list(page, limit)
-
+    
     while (data_container.firstChild) {
         data_container.removeChild(data_container.firstChild)
     }
+    while (pagination_menu.firstChild) {
+        pagination_menu.removeChild(pagination_menu.firstChild)
+    }
 
     list_planets.map(async (result) => {
-        const planet = await get_planet(result.url)
+        
+        const planet =await get_planet(result.url)
         data_container.appendChild(createNewCard(planet));
+        
+        document.getElementById('loading-overlay').style.display = 'none';
+        rolarParaElemento()
+        
     })
+
+    
+
     pagination_menu.appendChild(createPagination(page));
+    
 }
-render(1, 10)
+
+render(currentPage, limit)
+
+//pego o evento de troca de opção no select
 select.addEventListener("change", function (event) {
-    render(1, event.target.value)
+    document.getElementById('loading-overlay').style.display = 'flex';
+    limit = event.target.value
+    render(1, limit)
 })
+
+const optionToSelect = select.querySelector(`option[value="${limit}"]`);
+optionToSelect.selected = true;
+
+function rolarParaElemento() {
+    const elemento = document.getElementById("container");
+    window.scrollTo({
+      top: elemento.offsetTop,
+      behavior: 'smooth'
+    });
+  }
+  

@@ -1,3 +1,5 @@
 [data-container]{
-    font-family:'Roboto', Times, serif;
+    font-family:'Titillium web', Times, serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
 }
