@@ -18,6 +18,7 @@ if(params.get('limit')) limit = params.get('limit')
 
 // Esse método retorna uma array de planetas
 const planets_list = async (page, limit) => {
+   
     const planets = []
 
     try {
@@ -119,6 +120,7 @@ const createPagination = (page) => {
     // Esse método renderiza na tela todos os cards carregados
 const render = async (page, limit) => {
     
+    //rolarParaElemento()
     const list_planets = await planets_list(page, limit)
     
     while (data_container.firstChild) {
@@ -129,17 +131,38 @@ const render = async (page, limit) => {
     }
 
     list_planets.map(async (result) => {
-        const planet = await get_planet(result.url)
+        
+        const planet =await get_planet(result.url)
         data_container.appendChild(createNewCard(planet));
+        
+        document.getElementById('loading-overlay').style.display = 'none';
+        rolarParaElemento()
+        
     })
+
+    
+
     pagination_menu.appendChild(createPagination(page));
+    
 }
+
 render(currentPage, limit)
 
+//pego o evento de troca de opção no select
 select.addEventListener("change", function (event) {
+    document.getElementById('loading-overlay').style.display = 'flex';
     limit = event.target.value
     render(1, limit)
 })
 
 const optionToSelect = select.querySelector(`option[value="${limit}"]`);
 optionToSelect.selected = true;
+
+function rolarParaElemento() {
+    const elemento = document.getElementById("container");
+    window.scrollTo({
+      top: elemento.offsetTop,
+      behavior: 'smooth'
+    });
+  }
+  
