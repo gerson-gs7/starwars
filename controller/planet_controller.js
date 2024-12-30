@@ -16,7 +16,7 @@ const params = new URLSearchParams(currentUrl.search);
 if(params.get('page')) currentPage = params.get('page')
 if(params.get('limit')) limit = params.get('limit')
 
-// Esse método retorna uma array de planetas
+// Retorna uma array de planetas
 const planets_list = async (page, limit) => {
    
     const planets = []
@@ -36,7 +36,7 @@ const planets_list = async (page, limit) => {
         console.log(`Erro planets_list: ${error}`);
     }
 }
-// Esse método retorna uma instância do objeto Planet
+// Retorna uma instância do objeto Planet
 const get_planet = async (url) => {
     try {
         const res_api = await service.get_properties(url)
@@ -55,7 +55,7 @@ const get_planet = async (url) => {
         console.log(`Erro get_planet: ${error}`);
     }
 }
-// Esse método retorna um elemento card com os dados do Planeta
+// Retorna um elemento card com os dados do Planeta
 const createNewCard = (planet) => {
     const card = document.createElement('div');
     const container = `
@@ -80,7 +80,7 @@ const createNewCard = (planet) => {
     card.style = 'max-width: 18rem;'
     return card;
 }
-// Esse método retorna o menu de paginação
+// Retorna o menu de paginação
 const createPagination = (page) => {
     const ul = document.createElement('ul')
     ul.className = 'pagination';
@@ -116,11 +116,9 @@ const createPagination = (page) => {
     
     return ul;
 }
-
-    // Esse método renderiza na tela todos os cards carregados
+// Renderiza na tela todos os cards carregados
 const render = async (page, limit) => {
-    
-    //rolarParaElemento()
+    document.getElementById('loading-overlay').style.display = 'flex';
     const list_planets = await planets_list(page, limit)
     
     while (data_container.firstChild) {
@@ -139,16 +137,11 @@ const render = async (page, limit) => {
         rolarParaElemento()
         
     })
-
-    
-
-    pagination_menu.appendChild(createPagination(page));
-    
+    pagination_menu.appendChild(createPagination(page)); 
 }
+//render(currentPage, limit)
 
-render(currentPage, limit)
-
-//pego o evento de troca de opção no select
+// Pega o evento de troca de opção no select
 select.addEventListener("change", function (event) {
     document.getElementById('loading-overlay').style.display = 'flex';
     limit = event.target.value

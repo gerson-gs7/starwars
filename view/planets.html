@@ -10,14 +10,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet"><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="../assets/css/starchipStyle.css">
+    <link rel="stylesheet" href="../assets/css/dataContainerStyle.css">
     
 </head>
 
 <body>
 
     <main id="main">
-        <div NAVBAR class="d-flex justify-content-around">
+        <div NAVBAR class="d-flex justify-content-lg-around">
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="../index.html">Star Wars</a>
@@ -44,7 +44,7 @@
         </div>
         <!-- Banner de imagem e barra de busca -->
         <div BANNER class="banner d-flex">
-            <div class="col-12 col-md-6 p-1 p-md-5 my-0 my-md-auto text-light">
+            <div class="p-1 p-lg-5 my-0 my-lg-auto text-light flex-wrap">
                 <div class="px-5">
                     <h1 class="display-1">
                         Planets
@@ -52,32 +52,33 @@
                     <p class="fs-5">Search for your favorite Planet.</p>
                 </div>
                 <div>
-                    <form class="search px-5">
+                    <form class="search px-lg-5 px-2">
                         <div class="d-flex gap-2">
                             <input class="form-control" id="searchInput" type="text" placeholder="Search"
                                 aria-label="Search">
                             <button id="button" class="btn btn-warning text-light" type="submit">Search</button>
                         </div>
-                        <div class="d-md-flex">
-                            <div class="d-md-flex col-md-6 gap-2">
-                                <div class="col-12 col-md-5">
-                                    <label for="minPopulationInput">Min Population</label>
+                        <!-- filters -->
+                        <div class="d-lg-flex">
+                            <div class="d-flex d-lg-flex gap-2 justify-content-lg-start">
+                                <div class="col-lg-5 col-6">
+                                    <label class="form-text text-light" for="minPopulationInput">Min Population</label>
                                     <input class="form-control" type="number" min="0" name="minPopulationInput"
                                         id="minPopulationInput">
                                 </div>
-                                <div class="col-12 col-md-5">
-                                    <label for="maxPopulationInput">Max Population</label>
+                                <div class="col-lg-5 col-6">
+                                    <label class="form-text text-light" for="maxPopulationInput">Max Population</label>
                                     <input class="form-control" type="number" min="0" name="maxPopulationInput"
                                         id="maxPopulationInput">
                                 </div>
                             </div>
-                            <div class="d-md-flex col-md-6 gap-2">
-                                <div class="col-12 col-md-6">
-                                    <label for="terrainInput">Terrain</label>
+                            <div class="d-flex d-lg-flex gap-2 justify-content-lg-end">
+                                <div class="col-lg-6 col-6">
+                                    <label class="form-text text-light" for="terrainInput">Terrain</label>
                                     <input class="form-control" type="text" name="terrainInput" id="terrainInput">
                                 </div>
-                                <div class="col-12 col-md-6">
-                                    <label for="climateInput">Climate</label>
+                                <div class="col-lg-6 col-6">
+                                    <label class="form-text text-light" for="climateInput">Climate</label>
                                     <input class="form-control" type="text" name="climateInput" id="climateInput">
                                 </div>
                             </div>
@@ -105,7 +106,7 @@
 
 
             <hr>
-            <div id="loading-overlay" class="loading-overlay">
+            <div id="loading-overlay" class="loading-overlay" style="display: none;">
                 <div>
                     <div class="loading-spinner"></div>
                     <div>Loading...</div>
