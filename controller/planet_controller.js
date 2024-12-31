@@ -1,32 +1,27 @@
 import { Planet } from "../model/Planet.js";
 import { service } from "../service/service.js";
+import { utils } from "../utils/utils.js";
 
 const data_container = document.querySelector('[data-container]');
 const pagination_menu = document.querySelector('[pagination]')
 const select = document.querySelector("select");
-let total_records = ""
 let total_pages = ""
-let previous_page = ""
-let next_page = ""
-let currentPage = "1"
+var currentPage = 1
 let limit = "10"
 const currentUrl = new URL(window.location.href);
 const params = new URLSearchParams(currentUrl.search);
 // Pegando os valores dos parâmetros da url
-if(params.get('page')) currentPage = params.get('page')
-if(params.get('limit')) limit = params.get('limit')
+if (params.get('page')) currentPage = params.get('page')
+if (params.get('limit')) limit = params.get('limit')
 
 // Retorna uma array de planetas
 const planets_list = async (page, limit) => {
-   
+
     const planets = []
 
     try {
         const dataAPI = await service.get_list("planets", page, limit)
-        total_records = dataAPI.total_records
         total_pages = dataAPI.total_pages
-        previous_page = dataAPI.previous
-        next_page = dataAPI.next
         dataAPI.results.forEach(result => {
             planets.push(result)
         })
@@ -56,71 +51,31 @@ const get_planet = async (url) => {
     }
 }
 // Retorna um elemento card com os dados do Planeta
-const createNewCard = (planet) => {
-    const card = document.createElement('div');
-    const container = `
-                <div class="card" style="width: 18rem;">
+const newCard = (planet) => {
+    const model = `
+                    <div class="card" style="width: 18rem;">
                     <div class="card-header">
-                        <h5 class="card-title">${planet.get_name()}</h5>
+                    <h5 class="card-title">${planet.get_name()}</h5>
                     </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item bg-secondary">Rotation period: ${planet.get_rotation_period()}</li>
-                        <li class="list-group-item bg-ligth">Orbital period: ${planet.get_orbital_period()}</li>
-                        <li class="list-group-item bg-secondary">CLimate: ${planet.get_climate()}</li>
-                        <li class="list-group-item bg-ligth">Gravity: ${planet.get_gravity()}</li>
-                        <li class="list-group-item bg-secondary">Terrain: ${planet.get_terrain()}</li>
-                        <li class="list-group-item bg-ligth">Population: ${planet.get_population()}</li>
-                    </ul>
-                </div>
-
-    `
-    card.innerHTML = container;
-    card.className = 'card text-white mb-3 col-sm-12';
-    card.id = 'card';
-    card.style = 'max-width: 18rem;'
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item bg-secondary">Rotation period: ${planet.get_rotation_period()}</li>
+                            <li class="list-group-item bg-ligth">Orbital period: ${planet.get_orbital_period()}</li>
+                            <li class="list-group-item bg-secondary">CLimate: ${planet.get_climate()}</li>
+                            <li class="list-group-item bg-ligth">Gravity: ${planet.get_gravity()}</li>
+                            <li class="list-group-item bg-secondary">Terrain: ${planet.get_terrain()}</li>
+                            <li class="list-group-item bg-ligth">Population: ${planet.get_population()}</li>
+                        </ul>
+                    </div>
+    
+                `
+    const card = utils.createCard(model)
     return card;
-}
-// Retorna o menu de paginação
-const createPagination = (page) => {
-    const ul = document.createElement('ul')
-    ul.className = 'pagination';
-    
-    let btPrevious = document.createElement('li')
-    btPrevious.className = 'page-item'
-    btPrevious.innerHTML = `<button class="page-link">Previous</button>`
-    if(page==1) btPrevious.querySelector('button').className = "page-link disabled"
-    btPrevious.addEventListener("click", function() {
-        render(page-1,limit)
-    })
-    ul.appendChild(btPrevious)
-    
-    for (let i = 1; i <= total_pages; i++) {
-
-        let li = document.createElement('li')
-        li.className = 'page-item'
-        li.innerHTML = ` <a class="page-link active" href="?page=${i}&limit=${limit}">${i}</a>` 
-        if(page != i)li.querySelector('a').className = 'page-link'
-        
-        ul.appendChild(li)
-        
-    }
-      
-    let btNext = document.createElement('li')
-    btNext.className = 'page-item'
-    btNext.innerHTML = `<button class="page-link" href="#">Next</button>`
-    if(page==total_pages) btNext.querySelector('button').className = "page-link disabled";
-    btNext.addEventListener("click", function() {
-        render(page+1,limit)
-    })
-    ul.appendChild(btNext)
-    
-    return ul;
 }
 // Renderiza na tela todos os cards carregados
 const render = async (page, limit) => {
     document.getElementById('loading-overlay').style.display = 'flex';
-    const list_planets = await planets_list(page, limit)
-    
+    const list = await planets_list(page, limit)
+
     while (data_container.firstChild) {
         data_container.removeChild(data_container.firstChild)
     }
@@ -128,18 +83,18 @@ const render = async (page, limit) => {
         pagination_menu.removeChild(pagination_menu.firstChild)
     }
 
-    list_planets.map(async (result) => {
-        
-        const planet =await get_planet(result.url)
-        data_container.appendChild(createNewCard(planet));
-        
+    list.map(async (result) => {
+
+        const planet = await get_planet(result.url)
+        data_container.appendChild(newCard(planet));
+
         document.getElementById('loading-overlay').style.display = 'none';
         rolarParaElemento()
-        
+
     })
-    pagination_menu.appendChild(createPagination(page)); 
+    pagination_menu.appendChild(utils.createPagination(page, limit, total_pages));
 }
-//render(currentPage, limit)
+render(currentPage, limit)
 
 // Pega o evento de troca de opção no select
 select.addEventListener("change", function (event) {
@@ -154,8 +109,7 @@ optionToSelect.selected = true;
 function rolarParaElemento() {
     const elemento = document.getElementById("container");
     window.scrollTo({
-      top: elemento.offsetTop,
-      behavior: 'smooth'
+        top: elemento.offsetTop,
+        behavior: 'smooth'
     });
-  }
-  
+}

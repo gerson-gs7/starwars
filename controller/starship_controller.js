@@ -1,41 +1,31 @@
 import { Starship } from "../model/Starship.js";
 import { service } from "../service/service.js";
-import { starship_service } from "../service/starship_service.js";
-service
+import { utils } from "../utils/utils.js";
+
+const data_container = document.querySelector('[data-container]');
+const pagination_menu = document.querySelector('[pagination]')
+const select = document.querySelector("select");
+
+var currentPage = "1"
+let limit = "10"
+let total_pages = ""
+const currentUrl = new URL(window.location.href);
+const params = new URLSearchParams(currentUrl.search);
+// Pegando os valores dos parâmetros da url
+if (params.get('page')) currentPage = params.get('page')
+if (params.get('limit')) limit = params.get('limit')
 
 
-const container = document.querySelector('[data-container]');
-const page = "1"
-const limit = "10"
-
-
-const starship_list_url = async (page, limit) => {
-    try {
-        const urls = []
-        const starship_list = await service.get_list("starships", page, limit)
-        starship_list.forEach(result => {
-            urls.push(result.url)
-        });
-        
-        return urls
-    } catch (error) {
-        
-        console.log(error);
-    }
-}
-
-const starship_list = async () => {
+const starship_list = async (page, limit) => {
+    
     const ships = []
+    
     try {
         const dataAPI = await service.get_list("starships", page, limit)
-        total_records = dataAPI.total_records
-        total_pages = dataAPI.total_pages
-        previous_page = dataAPI.previous
-        next_page = dataAPI.next
+        total_pages = dataAPI.total_pages        
         dataAPI.results.forEach(result => {
             ships.push(result)
-        })
-        
+        })        
         return ships
     } catch (error) {
         console.log(`Erro starships_list: ${error}`);
@@ -44,7 +34,7 @@ const starship_list = async () => {
 
 const get_ship = async (url) => {
     try {
-        const ship = await starship_service.starship_properties(url)
+        const ship = await service.get_properties(url)
         
         const starship = new Starship(
             ship.name,
@@ -59,14 +49,12 @@ const get_ship = async (url) => {
         return starship
         
     } catch (error) {
-        console.log(error);
-        
+        console.log(error);      
     }
 }
 
-const createNewCard = (starship) => {
-    const card = document.createElement('div');
-    const container = `
+const newCard = (starship) => {
+    const model = `
                 <div class="card" style="width: 18rem;">
                     <div class="card-header">
                         <h5 class="card-title">${starship.get_name()}</h5>
@@ -81,20 +69,42 @@ const createNewCard = (starship) => {
                         <li class="list-group-item bg-secondary">Class: ${starship.get_starship_class()}</li>
                     </ul>
                 </div>
-
     `
-    card.innerHTML = container;
-    card.className = 'card text-white mb-3 col-sm-12';
-    card.id = 'card';
-    card.style = 'max-width: 18rem;'
-    return card;
+    const card = utils.createCard(model)
+    return card
 }
 
-const render = async () => {
-    const list_ships = await starship_list_url()
-    list_ships.map(async (url) => {
-        const starship = await get_ship(url)
-        container.appendChild(createNewCard(starship))
+const render = async (page, limit) => {
+    document.getElementById('loading-overlay').style.display = 'flex';
+    const list = await starship_list(page, limit)
+    while (data_container.firstChild) {
+        data_container.removeChild(data_container.firstChild)
+    }
+    while (pagination_menu.firstChild) {
+        pagination_menu.removeChild(pagination_menu.firstChild)
+    }
+    list.map(async (data) => {
+        const starship = await get_ship(data.url)
+        data_container.appendChild(newCard(starship))
+        document.getElementById('loading-overlay').style.display = 'none';
+    });
+    pagination_menu.appendChild(utils.createPagination(page, limit, total_pages))
+    rolarParaElemento()
+}
+// Pega o evento de troca de opção no select
+select.addEventListener("change", function (event) {
+    limit = event.target.value
+    render(1, limit)
+})
+
+const optionToSelect = select.querySelector(`option[value="${limit}"]`);
+optionToSelect.selected = true;
+
+render(currentPage,limit)
+function rolarParaElemento() {
+    const elemento = document.getElementById("container");
+    window.scrollTo({
+        top: elemento.offsetTop,
+        behavior: 'smooth'
     });
 }
-//render();
