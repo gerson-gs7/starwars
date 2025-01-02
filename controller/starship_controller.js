@@ -21,15 +21,15 @@ if (params.get('limit')) limit = params.get('limit')
 
 
 const starship_list = async (page, limit) => {
-    
+
     const ships = []
     const params = `?page=${page}&limit=${limit}`
     try {
         const dataAPI = await service.get_list("starships", params)
-        total_pages = dataAPI.total_pages        
+        total_pages = dataAPI.total_pages
         dataAPI.results.forEach(result => {
             ships.push(result)
-        })        
+        })
         return ships
     } catch (error) {
         console.log(`Erro starships_list: ${error}`);
@@ -39,7 +39,7 @@ const starship_list = async (page, limit) => {
 const get_ship = async (url) => {
     try {
         const ship = await service.get_properties(url)
-        
+
         const starship = new Starship(
             ship.name,
             ship.model,
@@ -51,36 +51,48 @@ const get_ship = async (url) => {
             ship.starship_class
         )
         return starship
-        
+
     } catch (error) {
-        console.log(error);      
+        console.log(error);
     }
 }
 
 const newCard = (starship) => {
+    // const model = `
+    //             <div class="card" style="width: 18rem;">
+    //                 <div class="card-header">
+    //                     <h5 class="card-title">${starship.get_name()}</h5>
+    //                 </div>
+    //                 <ul class="list-group list-group-flush">
+    //                     <li class="list-group-item bg-secondary">Model: ${starship.get_model()}</li>
+    //                     <li class="list-group-item bg-ligth">Cost in credits: ${starship.get_cost_in_credits()}</li>
+    //                     <li class="list-group-item bg-secondary">Manufacturer: ${starship.get_manufacturer()}</li>
+    //                     <li class="list-group-item bg-ligth">Crew: ${starship.get_crew()}</li>
+    //                     <li class="list-group-item bg-secondary">Max atmosphering speed: ${starship.get_max_atmosphering_speed()}</li>
+    //                     <li class="list-group-item bg-ligth">Hyperdrive rating: ${starship.get_hyperdrive_rating()}</li>
+    //                     <li class="list-group-item bg-secondary">Class: ${starship.get_starship_class()}</li>
+    //                 </ul>
+    //             </div>
+    // `
     const model = `
-                <div class="card" style="width: 18rem;">
-                    <div class="card-header">
-                        <h5 class="card-title">${starship.get_name()}</h5>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item bg-secondary">Model: ${starship.get_model()}</li>
-                        <li class="list-group-item bg-ligth">Cost in credits: ${starship.get_cost_in_credits()}</li>
-                        <li class="list-group-item bg-secondary">Manufacturer: ${starship.get_manufacturer()}</li>
-                        <li class="list-group-item bg-ligth">Crew: ${starship.get_crew()}</li>
-                        <li class="list-group-item bg-secondary">Max atmosphering speed: ${starship.get_max_atmosphering_speed()}</li>
-                        <li class="list-group-item bg-ligth">Hyperdrive rating: ${starship.get_hyperdrive_rating()}</li>
-                        <li class="list-group-item bg-secondary">Class: ${starship.get_starship_class()}</li>
-                    </ul>
-                </div>
-    `
+<ul class="card-header text-black">${starship.get_name()}
+        </ul>
+        <div class="card-body">
+            <li class="list-group-item bg-dark text-white ps-1">&#8226 Model: ${starship.get_model()}</li>
+                        <li class="list-group-item text-black ps-1">&#8226 Cost in credits: ${starship.get_cost_in_credits()}</li>
+                        <li class="list-group-item bg-dark text-white ps-1">&#8226 Manufacturer: ${starship.get_manufacturer()}</li>
+                        <li class="list-group-item text-black ps-1">&#8226 Crew: ${starship.get_crew()}</li>
+                        <li class="list-group-item bg-dark text-white ps-1">&#8226 Max atmosphering speed: ${starship.get_max_atmosphering_speed()}</li>
+                        <li class="list-group-item text-black ps-1">&#8226 Hyperdrive rating: ${starship.get_hyperdrive_rating()}</li>
+                        <li class="list-group-item bg-dark text-white ps-1">&#8226 Class: ${starship.get_starship_class()}</li>
+                    </div>`
     const card = utils.createCard(model)
     return card
 }
 
 const render = async (page, limit) => {
     document.getElementById('loading-overlay').style.display = 'flex';
-    
+
     const list = await starship_list(page, limit)
     while (data_container.firstChild) {
         data_container.removeChild(data_container.firstChild)
@@ -105,7 +117,7 @@ select.addEventListener("change", function (event) {
 const optionToSelect = select.querySelector(`option[value="${limit}"]`);
 optionToSelect.selected = true;
 
-render(currentPage,limit)
+render(currentPage, limit)
 
 //SCROLLAR
 function rolarParaElemento() {
