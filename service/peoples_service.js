@@ -3,15 +3,15 @@ export const peopleFetch = async () => {
     const cachedData = localStorage.getItem(cacheKey);
 
     if (cachedData) {
-        console.log('buscando personagem pelo cache');
-        console.log(localStorage.getItem('todosPersonagens'));
+        // console.log('buscando personagem pelo cache');
+        // console.log(localStorage.getItem('todosPersonagens'));
         // console.log(cacheKey);
         // console.log(cachedData);
         return JSON.parse(cachedData);
     } else {
-        console.log('buscando personagens pela api');
+        // console.log('buscando personagens pela api');
 
-        let url = 'https://www.swapi.tech/api/people?page=1&limit=82';
+        let url = 'https://www.swapi.tech/api/people?page=1&limit=10';
         let todosPersonagens = [];
 
         try {

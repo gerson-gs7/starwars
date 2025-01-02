@@ -3,13 +3,16 @@ import { homeworldFetch } from "../service/planets_service.js";
 
 //funçãod e criação de cards dos personagens
 const criaCard = (personagem) => {
+    // console.log('Criando card para:', personagem.name);
+    // console.log('Planeta natal:', personagem.homeworldName);
+
     const cardNovoPersonagem = document.createElement('div');
     cardNovoPersonagem.classList.add('card', 'mb-3');
     cardNovoPersonagem.dataset.name = personagem.name.toLowerCase();
     cardNovoPersonagem.dataset.eyeColor = personagem.eye_color.toLowerCase();
     cardNovoPersonagem.dataset.hairColor = personagem.hair_color.toLowerCase();
     cardNovoPersonagem.dataset.gender = personagem.gender.toLowerCase();
-    cardNovoPersonagem.dataset.homeworld = typeof personagem.homeworldName === 'string' ? personagem.homeworldName.toLowerCase() : 'unknown';
+    // cardNovoPersonagem.dataset.homeworld = typeof personagem.homeworldName === 'string' ? personagem.homeworldName.toLowerCase() : 'unknown';
     const conteudo = ` 
         <ul class="card-header">${substituirIndefinido(personagem.name)}</ul>
         <div class="card-body">
@@ -37,19 +40,19 @@ const filtrarCards = () => {
     const eyeColor = document.getElementById('eyeColorInput').value.toLowerCase();
     const hairColor = document.getElementById('hairColorInput').value.toLowerCase();
     const gender = document.getElementById('genderSelectInput').value.toLowerCase();
-    
+
     const cards = document.querySelectorAll('.card');
     cards.forEach(card => {
         const name = card.dataset.name;
         const cardEyeColor = card.dataset.eyeColor;
         const cardHairColor = card.dataset.hairColor;
         const cardGender = card.dataset.gender;
-        
+
         const matchesSearch = !search || name.includes(search);
         const matchesEyeColor = !eyeColor || cardEyeColor.includes(eyeColor);
         const matchesHairColor = !hairColor || cardHairColor.includes(hairColor);
         const matchesGender = !gender || cardGender === gender;
-        
+
         if (matchesSearch && matchesEyeColor && matchesHairColor && matchesGender) {
             card.style.display = 'block';
         } else {
@@ -66,42 +69,42 @@ document.getElementById('genderSelectInput').addEventListener('change', filtrarC
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //controle de paginação
-// let currentPage = 1;
-// const charactersPerPage = 10;
+let currentPage = 1;
+const charactersPerPage = 10;
 
-// const renderPage = (personagens) => {
-//     container.innerHTML = ''; // Limpar os cards existentes
-//     const start = (currentPage - 1) * charactersPerPage;
-//     const end = start + charactersPerPage;
-//     const personagensPagina = personagens.slice(start, end);
+const renderPage = (personagens) => {
+    container.innerHTML = ''; // Limpar os cards existentes
+    const start = (currentPage - 1) * charactersPerPage;
+    const end = start + charactersPerPage;
+    const personagensPagina = personagens.slice(start, end);
 
-//     personagensPagina.forEach(personagem => {
-//         container.appendChild(criaCard(personagem));
-//     });
+    personagensPagina.forEach(personagem => {
+        container.appendChild(criaCard(personagem));
+    });
 
-//     updatePaginationControls(personagens.length);
-// };
+    updatePaginationControls(personagens.length);
+};
 
-// const updatePaginationControls = (totalCharacters) => {
-//     const totalPages = Math.ceil(totalCharacters / charactersPerPage);
-//     const paginationContainer = document.querySelector('[data-pagination]');
+const updatePaginationControls = (totalCharacters) => {
+    const totalPages = Math.ceil(totalCharacters / charactersPerPage);
+    const paginationContainer = document.querySelector('[data-pagination]');
 
-//     paginationContainer.innerHTML = ''; // Limpar os controles existentes
+    paginationContainer.innerHTML = ''; // Limpar os controles existentes
 
-//     for (let i = 1; i <= totalPages; i++) {
-//         const button = document.createElement('button');
-//         button.textContent = i;
-//         button.classList.add('pagination-button');
-//         if (i === currentPage) {
-//             button.classList.add('active');
-//         }
-//         button.addEventListener('click', () => {
-//             currentPage = i;
-//             renderPage(detalhesPersonagens);
-//         });
-//         paginationContainer.appendChild(button);
-//     }
-// };
+    for (let i = 1; i <= totalPages; i++) {
+        const button = document.createElement('button');
+        button.textContent = i;
+        button.classList.add('pagination-button');
+        if (i === currentPage) {
+            button.classList.add('active');
+        }
+        button.addEventListener('click', () => {
+            currentPage = i;
+            renderPage(detalhesPersonagens);
+        });
+        paginationContainer.appendChild(button);
+    }
+};
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //método para renderizar os cards
@@ -122,7 +125,7 @@ const render = async () => {
             return { ...personagemDetalhes };
         }));
 
-        // renderPage(detalhesPersonagens); //Renderizar a primeira página
+        renderPage(detalhesPersonagens); //Renderizar a primeira página
 
         container.innerHTML = ''; // Limpar os cards existentes
         detalhesPersonagens.forEach(personagem => {
