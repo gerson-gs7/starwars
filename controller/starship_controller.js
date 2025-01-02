@@ -1,33 +1,110 @@
 import { Starship } from "../model/Starship.js";
-import { starship_service } from "../service/starship_service.js";
+import { service } from "../service/service.js";
+import { utils } from "../utils/utils.js";
+
+const data_container = document.querySelector('[data-container]');
+const pagination_menu = document.querySelector('[pagination]')
+const select = document.querySelector("select");
+
+var currentPage = "1"
+let limit = "10"
+let total_pages = ""
+const currentUrl = new URL(window.location.href);
+const params = new URLSearchParams(currentUrl.search);
+// Pegando os valores dos parâmetros da url
+if (params.get('page')) currentPage = params.get('page')
+if (params.get('limit')) limit = params.get('limit')
 
 
-
-const criaNovoCard = (Starship)=>{
-    const card = document.createElement('div');
-    const container = `<div class="card-header">${Starship.get_name()}</div>
-                <div class="card-body">
-                  <h5 class="card-title">Dark card title</h5>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                </div>`
-
-                card.innerHTML = container;
-                card.className = 'card text-white bg-dark mb-3';
-                card.style = 'max-width: 18rem;'
-                return card;
-}
-const container = document.querySelector('[data-container]');
-const render = async () => {
+const starship_list = async (page, limit) => {
+    
+    const ships = []
+    
     try {
-        const starship_list = await starship_service.starship_list()
-        starship_list.forEach( ship => {
-        const starship = new Starship(ship.name)
-        container.appendChild(criaNovoCard(starship));
-
-        })
+        const dataAPI = await service.get_list("starships", page, limit)
+        total_pages = dataAPI.total_pages        
+        dataAPI.results.forEach(result => {
+            ships.push(result)
+        })        
+        return ships
     } catch (error) {
-        
-        console.log(error);
+        console.log(`Erro starships_list: ${error}`);
     }
 }
-render();
+
+const get_ship = async (url) => {
+    try {
+        const ship = await service.get_properties(url)
+        
+        const starship = new Starship(
+            ship.name,
+            ship.model,
+            ship.cost_in_credits,
+            ship.manufacturer,
+            ship.crew,
+            ship.max_atmosphering_speed,
+            ship.hyperdrive_rating,
+            ship.starship_class
+        )
+        return starship
+        
+    } catch (error) {
+        console.log(error);      
+    }
+}
+
+const newCard = (starship) => {
+    const model = `
+                <div class="card" style="width: 18rem;">
+                    <div class="card-header">
+                        <h5 class="card-title">${starship.get_name()}</h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item bg-secondary">Model: ${starship.get_model()}</li>
+                        <li class="list-group-item bg-ligth">Cost in credits: ${starship.get_cost_in_credits()}</li>
+                        <li class="list-group-item bg-secondary">Manufacturer: ${starship.get_manufacturer()}</li>
+                        <li class="list-group-item bg-ligth">Crew: ${starship.get_crew()}</li>
+                        <li class="list-group-item bg-secondary">Max atmosphering speed: ${starship.get_max_atmosphering_speed()}</li>
+                        <li class="list-group-item bg-ligth">Hyperdrive rating: ${starship.get_hyperdrive_rating()}</li>
+                        <li class="list-group-item bg-secondary">Class: ${starship.get_starship_class()}</li>
+                    </ul>
+                </div>
+    `
+    const card = utils.createCard(model)
+    return card
+}
+
+const render = async (page, limit) => {
+    document.getElementById('loading-overlay').style.display = 'flex';
+    const list = await starship_list(page, limit)
+    while (data_container.firstChild) {
+        data_container.removeChild(data_container.firstChild)
+    }
+    while (pagination_menu.firstChild) {
+        pagination_menu.removeChild(pagination_menu.firstChild)
+    }
+    list.map(async (data) => {
+        const starship = await get_ship(data.url)
+        data_container.appendChild(newCard(starship))
+        document.getElementById('loading-overlay').style.display = 'none';
+    });
+    pagination_menu.appendChild(utils.createPagination(page, limit, total_pages))
+    rolarParaElemento()
+}
+// Pega o evento de troca de opção no select
+select.addEventListener("change", function (event) {
+    limit = event.target.value
+    render(1, limit)
+})
+
+const optionToSelect = select.querySelector(`option[value="${limit}"]`);
+optionToSelect.selected = true;
+
+render(currentPage,limit)
+function rolarParaElemento() {
+    const elemento = document.getElementById("container");
+    window.scrollTo({
+        top: elemento.offsetTop,
+        behavior: 'smooth'
+    });
+}

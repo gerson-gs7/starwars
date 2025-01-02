@@ -5,7 +5,15 @@ const starship_list = () =>{
     .then(data => data.results)
     .catch(err => console.error(err))
 }
-export const starship_service = {
- starship_list   
+
+const starship_properties = (url) =>{
+
+    return fetch(url)
+    .then(res => res.json())
+    .then(data => data.result.properties)
 }
 
+export const starship_service = {
+ starship_list,
+ starship_properties
+}
