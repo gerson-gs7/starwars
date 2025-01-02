@@ -1,5 +1,7 @@
 import { peopleFetch } from "../service/peoples_service.js";
 import { homeworldFetch } from "../service/planets_service.js";
+import { service } from "../service/service.js";
+
 
 //funçãod e criação de cards dos personagens
 const criaCard = (personagem) => {
@@ -14,14 +16,16 @@ const criaCard = (personagem) => {
     cardNovoPersonagem.dataset.gender = personagem.gender.toLowerCase();
     // cardNovoPersonagem.dataset.homeworld = typeof personagem.homeworldName === 'string' ? personagem.homeworldName.toLowerCase() : 'unknown';
     const conteudo = ` 
-        <ul class="card-header">${substituirIndefinido(personagem.name)}</ul>
+        <ul class="card-header">${substituirIndefinido(personagem.name)}
+        </ul>
         <div class="card-body">
-            <li class="card-text bg-dark text-white">Eye Color: ${substituirIndefinido(personagem.eye_color)}</li>
-            <li class="card-text">Hair Color: ${substituirIndefinido(personagem.hair_color)}</li>
-            <li class="card-text bg-dark text-white">Gender: ${substituirIndefinido(personagem.gender)}</li>
-            <li class="card-text">Birth Year: ${substituirIndefinido(personagem.birth_year)}</li>
-            <li class="card-text bg-dark text-white">Homeworld: ${substituirIndefinido(personagem.homeworldName)}</li>
-        </div>`;
+            <li class="card-text bg-dark text-white ps-1">Eye Color: ${substituirIndefinido(personagem.eye_color)}</li>
+            <li class="card-text ps-1">Hair Color: ${substituirIndefinido(personagem.hair_color)}</li>
+            <li class="card-text bg-dark text-white ps-1">Gender: ${substituirIndefinido(personagem.gender)}</li>
+            <li class="card-text ps-1">Birth Year: ${substituirIndefinido(personagem.birth_year)}</li>
+            <li class="card-text bg-dark text-white ps-1">Homeworld: ${substituirIndefinido(personagem.homeworldName)}</li>
+        </div>
+        `
     cardNovoPersonagem.innerHTML = conteudo;
     return cardNovoPersonagem;
 };
