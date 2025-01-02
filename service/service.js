@@ -1,6 +1,6 @@
 
-const get_list = (endPoint, page, limit) => {
-    return fetch(`https://www.swapi.tech/api/${endPoint}?page=${page}&limit=${limit}`)
+const get_list = (endPoint, params) => {
+    return fetch(`https://www.swapi.tech/api/${endPoint}${params}`)
         .then(res => res.json())
         .then(data => data)
         .catch(err => console.error(err))
