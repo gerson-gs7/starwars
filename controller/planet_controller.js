@@ -7,9 +7,11 @@ const pagination_menu = document.querySelector('[pagination]')
 const select = document.querySelector("select");
 let total_pages = ""
 var currentPage = 1
-let limit = "10"
+let limit = 10
+
 const currentUrl = new URL(window.location.href);
 const params = new URLSearchParams(currentUrl.search);
+
 // Pegando os valores dos parâmetros da url
 if (params.get('page')) currentPage = params.get('page')
 if (params.get('limit')) limit = params.get('limit')
@@ -18,9 +20,9 @@ if (params.get('limit')) limit = params.get('limit')
 const planets_list = async (page, limit) => {
 
     const planets = []
-
+    const params = `?page=${page}&limit=${limit}`
     try {
-        const dataAPI = await service.get_list("planets", page, limit)
+        const dataAPI = await service.get_list("planets", params)
         total_pages = dataAPI.total_pages
         dataAPI.results.forEach(result => {
             planets.push(result)

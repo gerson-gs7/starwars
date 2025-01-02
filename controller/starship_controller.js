@@ -5,12 +5,16 @@ import { utils } from "../utils/utils.js";
 const data_container = document.querySelector('[data-container]');
 const pagination_menu = document.querySelector('[pagination]')
 const select = document.querySelector("select");
-
-var currentPage = "1"
-let limit = "10"
+const searchInput = document.querySelector('#searchInput');
+const searchButton = document.querySelector('#searchButton')
+var currentPage = 1
+let limit = 10
 let total_pages = ""
+
+
 const currentUrl = new URL(window.location.href);
 const params = new URLSearchParams(currentUrl.search);
+
 // Pegando os valores dos parâmetros da url
 if (params.get('page')) currentPage = params.get('page')
 if (params.get('limit')) limit = params.get('limit')
@@ -19,9 +23,9 @@ if (params.get('limit')) limit = params.get('limit')
 const starship_list = async (page, limit) => {
     
     const ships = []
-    
+    const params = `?page=${page}&limit=${limit}`
     try {
-        const dataAPI = await service.get_list("starships", page, limit)
+        const dataAPI = await service.get_list("starships", params)
         total_pages = dataAPI.total_pages        
         dataAPI.results.forEach(result => {
             ships.push(result)
@@ -76,6 +80,7 @@ const newCard = (starship) => {
 
 const render = async (page, limit) => {
     document.getElementById('loading-overlay').style.display = 'flex';
+    
     const list = await starship_list(page, limit)
     while (data_container.firstChild) {
         data_container.removeChild(data_container.firstChild)
@@ -101,6 +106,8 @@ const optionToSelect = select.querySelector(`option[value="${limit}"]`);
 optionToSelect.selected = true;
 
 render(currentPage,limit)
+
+//SCROLLAR
 function rolarParaElemento() {
     const elemento = document.getElementById("container");
     window.scrollTo({
