@@ -11,13 +11,13 @@ const params = new URLSearchParams(currentUrl.search);
 
 // Pegando os valores dos parâmetros da url
 if (params.get('page')) currentPage = params.get('page')
-    if (params.get('limit')) limit = params.get('limit')    
+if (params.get('limit')) limit = params.get('limit')    
         
 const data_container = document.querySelector('[data-container]');
 const pagination_menu = document.querySelector('[pagination]')
 const select = document.querySelector("#selectItensforPag")
 
-//funçãod e criação de cards dos personagens
+//função de criação de cards dos personagens
 
 const criaCard = (personagem) => {
     // console.log('Criando card para:', personagem.name);
@@ -39,8 +39,8 @@ const criaCard = (personagem) => {
             <li class="card-text bg-dark text-white ps-1">Gender: ${substituirIndefinido(personagem.gender)}</li>
             <li class="card-text ps-1">Birth Year: ${substituirIndefinido(personagem.birth_year)}</li>
             <li class="card-text bg-dark text-white ps-1">Homeworld: ${substituirIndefinido(personagem.get_homeworld())}</li>
-            </div>
-            `
+            </div>`
+
     cardNovoPersonagem.innerHTML = conteudo;
     return cardNovoPersonagem;
 };
