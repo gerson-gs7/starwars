@@ -2,7 +2,6 @@ import { People } from "../model/People.js";
 import { service } from "../service/service.js";
 import { utils } from "../utils/utils.js";
 
-
 let currentPage = 1;
 let limit = 10;
 let total_pages = ""
@@ -12,9 +11,8 @@ const params = new URLSearchParams(currentUrl.search);
 
 // Pegando os valores dos parâmetros da url
 if (params.get('page')) currentPage = params.get('page')
-if (params.get('limit')) limit = params.get('limit')
-
-
+    if (params.get('limit')) limit = params.get('limit')    
+        
 const data_container = document.querySelector('[data-container]');
 const pagination_menu = document.querySelector('[pagination]')
 const select = document.querySelector("#selectItensforPag")
@@ -46,27 +44,23 @@ const criaCard = (personagem) => {
     cardNovoPersonagem.innerHTML = conteudo;
     return cardNovoPersonagem;
 };
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-const peopleList = async () => {
+const peopleList = async () =>{
     let people = []
     let params = `?page=${currentPage}&limit=${limit}`
     try {
         const dataAPI = await service.get_list("people", params)
-
-
+            
         total_pages = dataAPI.total_pages
-
-        dataAPI.results.forEach(res => {
+        
+        dataAPI.results.forEach(res =>{
             people.push(res)
         })
         return people;
     } catch (error) {
-        console.log("peopleList: " + error);
-
-    }
-
+        console.log("peopleList: "+error);       
+    } 
 }
 
 const getPeople = async (url) => {
@@ -81,26 +75,23 @@ const getPeople = async (url) => {
             resAPI.birth_year,
             resAPI.gender,
             resAPI.uid)
-
-        return people
-    } catch (error) {
-        console.log("get people ERROR:" + error);
-
+            
+            return people
+        } catch (error) {
+            console.log("get people ERROR:"+error);          
     }
 }
-
 const getPlanetName = async (url) => {
     try {
         const res_api = await service.get_properties(url)
 
         const planet_name = res_api.name
         return planet_name
-
+        
     } catch (error) {
         console.log(`Erro get_planet: ${error}`);
     }
 }
-
 //método para renderizar os cards
 const render = async () => {
     document.getElementById('loading-overlay').style.display = 'flex';
@@ -112,9 +103,9 @@ const render = async () => {
             pagination_menu.removeChild(pagination_menu.firstChild)
         }
         const personagens = await peopleList();
-
+        
         personagens.map(async (res) => {
-
+            
             const people = await getPeople(res.url)
             data_container.appendChild(criaCard(people))
         })
@@ -147,19 +138,19 @@ const filtrarCards = () => {
     const eyeColor = document.getElementById('eyeColorInput').value.toLowerCase();
     const hairColor = document.getElementById('hairColorInput').value.toLowerCase();
     const gender = document.getElementById('genderSelectInput').value.toLowerCase();
-
+    
     const cards = document.querySelectorAll('.card');
     cards.forEach(card => {
         const name = card.dataset.name;
         const cardEyeColor = card.dataset.eyeColor;
         const cardHairColor = card.dataset.hairColor;
         const cardGender = card.dataset.gender;
-
+        
         const matchesSearch = !search || name.includes(search);
         const matchesEyeColor = !eyeColor || cardEyeColor.includes(eyeColor);
         const matchesHairColor = !hairColor || cardHairColor.includes(hairColor);
         const matchesGender = !gender || cardGender === gender;
-
+        
         if (matchesSearch && matchesEyeColor && matchesHairColor && matchesGender) {
             card.style.display = 'block';
         } else {
@@ -167,7 +158,6 @@ const filtrarCards = () => {
         }
     });
 };
-
 // Adicionar eventos de input para filtrar dinamicamente
 document.getElementById('searchInput').addEventListener('input', filtrarCards);
 document.getElementById('eyeColorInput').addEventListener('input', filtrarCards);

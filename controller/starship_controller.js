@@ -58,22 +58,7 @@ const get_ship = async (url) => {
 }
 
 const newCard = (starship) => {
-    // const model = `
-    //             <div class="card" style="width: 18rem;">
-    //                 <div class="card-header">
-    //                     <h5 class="card-title">${starship.get_name()}</h5>
-    //                 </div>
-    //                 <ul class="list-group list-group-flush">
-    //                     <li class="list-group-item bg-secondary">Model: ${starship.get_model()}</li>
-    //                     <li class="list-group-item bg-ligth">Cost in credits: ${starship.get_cost_in_credits()}</li>
-    //                     <li class="list-group-item bg-secondary">Manufacturer: ${starship.get_manufacturer()}</li>
-    //                     <li class="list-group-item bg-ligth">Crew: ${starship.get_crew()}</li>
-    //                     <li class="list-group-item bg-secondary">Max atmosphering speed: ${starship.get_max_atmosphering_speed()}</li>
-    //                     <li class="list-group-item bg-ligth">Hyperdrive rating: ${starship.get_hyperdrive_rating()}</li>
-    //                     <li class="list-group-item bg-secondary">Class: ${starship.get_starship_class()}</li>
-    //                 </ul>
-    //             </div>
-    // `
+    
     const model = `
 <ul class="card-header text-black">${starship.get_name()}
         </ul>
