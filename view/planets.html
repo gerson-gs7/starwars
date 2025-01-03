@@ -56,9 +56,9 @@
                 <div>
                     <form class="search px-lg-5 px-2">
                         <div class="d-flex gap-2">
-                            <input class="form-control" id="searchInput" type="text" placeholder="Search"
-                                aria-label="Search">
-                            <button id="button" class="btn btn-warning text-light" type="submit">Search</button>
+                            <input required id="searchInput" class="form-control" type="text" placeholder="Search"
+                                aria-label="Search"/>
+                            <button id="searchButton" class="btn btn-warning text-light" type="submit">Search</button>
                         </div>
                         <!-- filters -->
                         <div class="d-lg-flex">
@@ -131,27 +131,5 @@
     integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
     crossorigin="anonymous"></script>
 <script type="module" src="../controller/planet_controller.js"></script>
-<script>
-
-    let button = document.getElementById('button');
-    button.addEventListener("click", function (event) {
-        event.preventDefault()
-    });
-    document.getElementById('searchInput').addEventListener('keyup', function () {
-        let filter = this.value.toLowerCase();
-        let items = document.querySelectorAll('#card div');
-
-        items.forEach(function (item) {
-
-            let title = item.querySelector('h5')
-
-            if (title.textContent.toLowerCase().includes(filter)) {
-                item.style.display = '';
-            } else {
-                item.style.display = 'none';
-            }
-        });
-    });
-</script>
 
 </html>
