@@ -96,7 +96,7 @@ const render = async (page, limit) => {
     })
     pagination_menu.appendChild(utils.createPagination(page, limit, total_pages));
 }
-render(currentPage, limit)
+//render(currentPage, limit)
 
 // Pega o evento de troca de opção no select
 select.addEventListener("change", function (event) {
