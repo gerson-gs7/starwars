@@ -1,8 +1,6 @@
 import { People } from "../model/People.js";
-import { Planet } from "../model/Planet.js";
 import { service } from "../service/service.js";
 import { utils } from "../utils/utils.js";
-
 
 let currentPage = 1;
 let limit = 10;
@@ -13,8 +11,7 @@ const params = new URLSearchParams(currentUrl.search);
 
 // Pegando os valores dos parâmetros da url
 if (params.get('page')) currentPage = params.get('page')
-    if (params.get('limit')) limit = params.get('limit')
-        
+    if (params.get('limit')) limit = params.get('limit')    
         
 const data_container = document.querySelector('[data-container]');
 const pagination_menu = document.querySelector('[pagination]')
@@ -47,16 +44,14 @@ const criaCard = (personagem) => {
     cardNovoPersonagem.innerHTML = conteudo;
     return cardNovoPersonagem;
 };
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const peopleList = async () =>{
     let people = []
     let params = `?page=${currentPage}&limit=${limit}`
     try {
         const dataAPI = await service.get_list("people", params)
-        
-        
+            
         total_pages = dataAPI.total_pages
         
         dataAPI.results.forEach(res =>{
@@ -64,16 +59,14 @@ const peopleList = async () =>{
         })
         return people;
     } catch (error) {
-        console.log("peopleList: "+error);
-        
-    }
-    
+        console.log("peopleList: "+error);       
+    } 
 }
 
 const getPeople = async (url) => {
     const resAPI = await service.get_properties(url)
     try {
-        const planet_name = await get_planet_name(resAPI.homeworld)
+        const planet_name = await getPlanetName(resAPI.homeworld)
         const people = new People(
             resAPI.name,
             planet_name,
@@ -85,11 +78,10 @@ const getPeople = async (url) => {
             
             return people
         } catch (error) {
-            console.log("get people ERROR:"+error);
-            
+            console.log("get people ERROR:"+error);          
     }
 }
-const get_planet_name = async (url) => {
+const getPlanetName = async (url) => {
     try {
         const res_api = await service.get_properties(url)
 
@@ -133,37 +125,6 @@ select.addEventListener("change", function (event) {
 const optionToSelect = select.querySelector(`option[value="${limit}"]`);
 optionToSelect.selected = true;
 render();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //substituindo o valor retornado de n/a para undefined
 const substituirIndefinido = (valor) => {
