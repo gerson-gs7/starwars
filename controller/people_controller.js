@@ -20,8 +20,6 @@ const select = document.querySelector("#selectItensforPag")
 //funçãod e criação de cards dos personagens
 
 const criaCard = (personagem) => {
-    // console.log('Criando card para:', personagem.name);
-    // console.log('Planeta natal:', personagem.homeworldName);
 
     const cardNovoPersonagem = document.createElement('div');
     cardNovoPersonagem.classList.add('card', 'mb-3');
@@ -29,7 +27,7 @@ const criaCard = (personagem) => {
     cardNovoPersonagem.dataset.eyeColor = personagem.eye_color.toLowerCase();
     cardNovoPersonagem.dataset.hairColor = personagem.hair_color.toLowerCase();
     cardNovoPersonagem.dataset.gender = personagem.gender.toLowerCase();
-    // cardNovoPersonagem.dataset.homeworld = typeof personagem.homeworldName === 'string' ? personagem.homeworldName.toLowerCase() : 'unknown';
+    
     const conteudo = ` 
         <ul class="card-header">${substituirIndefinido(personagem.name)}
         </ul>
